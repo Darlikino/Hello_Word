@@ -2,7 +2,7 @@
 #надо дописать, когда выбираешь таймер, вместо часов появляется таймер
 
 from tkinter import *
-import time
+import time, pygame
 
 root = Tk()
 root.title("Timer")
@@ -10,8 +10,8 @@ f = Frame()
 f.pack()
 
 time_var = StringVar()
-time_label = Label(f, textvariable=time_var, font="Courier 60",
-                   bg="lightyellow", fg="#00B000")
+time_label = Label(f, textvariable=time_var, font="Courier 70",
+                   bg="lightyellow", fg="black")
 time_label.pack()
 
 
@@ -30,9 +30,26 @@ def close_app():
     root.destroy()
 
 
-def timer():
-    time_label = Label(f, textvariable=time_var, font="Courier 60",
-                       bg="green", fg="#00B000")
+def times(min):
+    #min = int(min)
+    time_var.set(time.strftime(min))
+
+
+def song():
+    mp3 = 'C:\Code\Timer\lesnik.mp3'
+
+    pygame.init()
+
+    pygame.display.set_mode((400, 300))
+    pygame.display.set_caption('Timer')
+
+    pygame.mixer.music.load(mp3)
+
+    pygame.mixer.music.play()
+
+    time.sleep(1)
+    pygame.mixer.music.stop()
+    pygame.quit()
 
 
 menu = Menu(root)
@@ -43,8 +60,8 @@ fm.add_command(label='Exit', command=close_app)
 
 sm = Menu(menu)
 menu.add_cascade(label='Time', menu=sm)
-sm.add_command(label='15', command=timer)
-sm.add_command(label='30', command=timer)
+sm.add_command(label='15', command=times('15'))
+sm.add_command(label='30', command=song)
 
 
 time_label.after(500, tick)
